@@ -2,11 +2,11 @@
   <app-shopping-edit></app-shopping-edit>
   <div class="col-xs-10">
     <ul class="list-group">
-      <a href="#" class="list-group-item" style="cursor:pointer;">
+
         @for (ingredient of ingredients; track  ingredient.name ) {
           <app-ingredient [ingredient]="ingredient"></app-ingredient>
         }
-      </a>
+
     </ul>
   </div>
 </div>

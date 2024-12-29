@@ -6,6 +6,8 @@
 <hr>
 <div class="row">
   @for (recipe of recipes;track recipe.name){
-    <app-recipe-item [recipe]="recipe"></app-recipe-item>
+
+      <app-recipe-item [recipe]="recipe" ></app-recipe-item>
+
   }
 </div>

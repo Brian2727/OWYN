@@ -1,6 +1,9 @@
 <div class="col-xs-12">
-    <a class="list-group-item clearfix">
+    <a href="#" class="list-group-item clearfix" style="cursor: pointer" (click)="onSelectedRecipe()" >
       <div class="pull-left">
+        @if (isRecipeSelected){
+          <h5>Selected</h5>
+        }
         <h4 class="list-group-item-heading">{{recipe.name}}</h4>
         <p class="list-group-item-text">{{recipe.description}}</p>
       </div>
