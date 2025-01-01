@@ -37,4 +37,10 @@ export class ShoppingListService {
     this.ingredientsChanged.emit(this.ingredients.slice());
   }
 
+  addIngredients(ingredients: Ingredient[]){
+    // @ts-ignore
+    this.ingredients = [...ingredients,...this.ingredients];
+    this.ingredientsChanged.emit(ingredients);
+  }
+
 }

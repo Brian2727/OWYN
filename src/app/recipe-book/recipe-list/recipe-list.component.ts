@@ -14,7 +14,7 @@ import {RecipeService} from "../recipe.service";
 })
 export class RecipeListComponent {
   recipes: Recipe[] = [];
-  selectedRecipe = new Recipe("Spaghetti Carbonara", "A classic Italian pasta dish with eggs, cheese, pancetta, and pepper.", "images/spaghetti-carbonara.jpg");
+  selectedRecipe!: Recipe
 
   constructor(private recipeService: RecipeService) {
 

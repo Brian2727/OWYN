@@ -17,7 +17,8 @@ export class ShoppingEditComponent {
   constructor(private shoppingListService: ShoppingListService) {
   }
 
-  addIngredient() {
+  addIngredient(event: Event) {
+    event.preventDefault();
     let ingredient = new Ingredient(this.nameRef.nativeElement.value, this.descriptionRef.nativeElement.value,this.amountRef.nativeElement.value);
     this.shoppingListService.addIngredient(ingredient)
   }
