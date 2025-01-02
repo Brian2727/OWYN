@@ -3,8 +3,8 @@
   <div class="col-xs-10">
     <ul class="list-group">
 
-        @for (ingredient of ingredients; track  ingredient.name ) {
-          <app-ingredient [ingredient]="ingredient"></app-ingredient>
+        @for (ingredient of ingredients;let i = $index; track  ingredient.name ) {
+          <app-ingredient [index]="i" [ingredient]="ingredient"></app-ingredient>
         }
 
     </ul>

@@ -6,11 +6,12 @@ import {ShoppingListComponent} from "./shopping-list/shopping-list.component";
 import {RecipeListComponent} from "./recipe-book/recipe-list/recipe-list.component";
 import {RecipeService} from "./recipe-book/recipe.service";
 import {ShoppingListService} from "./shopping-list/ShoppingList.Service";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, RecipeBookComponent, ShoppingListComponent, RecipeListComponent],
+  imports: [RouterOutlet, HeaderComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers:[RecipeService,ShoppingListService]

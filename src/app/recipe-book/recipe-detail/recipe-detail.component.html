@@ -10,8 +10,8 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    @for (ingredient of (recipe.ingredients); track ingredient.name  ){
-      <app-ingredient [ingredient]="ingredient"></app-ingredient>
+    @for (ingredient of (recipe.ingredients);let i = $index;track ingredient.name  ){
+      <app-ingredient [index]="i" [ingredient]="ingredient"></app-ingredient>
     }
   </div>
 </div>
