@@ -20,9 +20,9 @@
     <div class="btn-group" appDropdown>
       <button type="button" class="btn btn-primary dropdown-toggle">Manage Recipe<span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li><a (click)="addToShoppingList(recipe.ingredients)">Add</a></li>
-         <li><a >Edit</a></li>
-         <li><a >Delete</a></li>
+        <li><a style="cursor: pointer" (click)="addToShoppingList(recipe.ingredients)">Add</a></li>
+         <li><a style="cursor: pointer" routerLink="edit" >Edit</a></li>
+         <li><a  style="cursor: pointer">Delete</a></li>
       </ul>
     </div>
   </div>

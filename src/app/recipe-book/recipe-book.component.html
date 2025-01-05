@@ -1,10 +1,13 @@
 <div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success" routerLink="new">New</button>
+  </div>
+</div>
+<div class="row">
   <div class="col-sm-5">
       <app-recipe-list></app-recipe-list>
   </div>
   <div class="col-sm-5">
-      @if(recipeSelected){
-        <app-recipe-detail></app-recipe-detail>
-      }
+    <router-outlet></router-outlet>
   </div>
 </div>

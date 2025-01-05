@@ -3,8 +3,12 @@ import { Recipe } from "./recipe.model";
 import {Ingredient} from "../shared/ingredient.model";
 import {Subject} from "rxjs";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root', // This registers the service globally
+})
 export class RecipeService {
+
+   recipesChanged = new Subject<number>();
 
    recipeSelected = new EventEmitter<Recipe>();
 
@@ -69,4 +73,17 @@ export class RecipeService {
      return this.recipes.slice();
    }
 
+   getRecipeById(id:number){
+     return this.recipes[id];
+   }
+
+  addRecipe(newRecipe: Recipe) {
+    this.recipes.push(newRecipe);
+    this.recipesChanged.next(this.recipes.length - 1);
+  }
+
+  updateRecipe(recipe: Recipe, index: number) {
+    this.recipes[index] = recipe;
+    this.recipesChanged.next(index);
+  }
 }

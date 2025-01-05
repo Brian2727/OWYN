@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {DropdownDirective} from "../shared/dropdown.directive";
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {DataStorageService} from "../shared/data-storage.service";
 
 @Component({
   selector: 'app-header',
@@ -15,4 +16,10 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 })
 export class HeaderComponent {
 
+  constructor(private dataStorageService: DataStorageService) {
+  }
+
+  onSaveData() {
+    this.dataStorageService.saveRecipes();
+  }
 }
