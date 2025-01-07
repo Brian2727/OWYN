@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RecipeService} from "../recipe.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Recipe} from "../recipe.model";
+
 
 @Component({
   selector: 'app-recipe-edit',
@@ -19,7 +20,7 @@ export class RecipeEditComponent {
   recipeForm!: FormGroup;
   recipeIngredientsForms!: FormArray;
 
-  constructor(private recipeService: RecipeService, private route: ActivatedRoute,private router: Router) {
+  constructor(private recipeService: RecipeService, private route: ActivatedRoute,private router: Router,private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -46,7 +47,7 @@ export class RecipeEditComponent {
     let recipeIngredients: FormArray<any>;
     // @ts-ignore
     recipeIngredients = new FormArray([]);
-
+    console.log(this.editMode)
     if (this.editMode) {
       const recipe = this.recipeService.getRecipeById(this.id);
       recipeName = recipe.name;
@@ -66,13 +67,23 @@ export class RecipeEditComponent {
       }
 
     }
+    else{
 
+      recipeIngredients.push(
+        new FormGroup({
+              'name': new FormControl(),
+              'amount': new FormControl(),
+              'description': new FormControl()
+            }))
+      this.recipeIngredientsForms= recipeIngredients
+    }
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName,Validators.required),
       'description': new FormControl(recipeDescription,Validators.required),
       'imagePath': new FormControl(recipeImagePath,Validators.required),
       'ingredients': recipeIngredients
     })
+    console.log(this.recipeForm)
   }
 
   onAddIngredient() {
@@ -83,6 +94,9 @@ export class RecipeEditComponent {
           'description': new FormControl()
         })
     )
+    this.recipeIngredientsForms = <FormArray>this.recipeForm.get('ingredients')
+    console.log(this.recipeForm)
+
   }
 
   onSubmit() {
@@ -94,7 +108,7 @@ export class RecipeEditComponent {
 
     if (this.editMode) {
       this.recipeService.updateRecipe(recipe, this.id);
-      this.router.navigate(['recipe-book', this.id]).then(r => console.log(r));
+      this.router.navigate(['recipesBook', this.id]).then(r => console.log(r));
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }

@@ -1,75 +1,26 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import {Injectable, EventEmitter, Output} from '@angular/core';
 import { Recipe } from "./recipe.model";
 import {Ingredient} from "../shared/ingredient.model";
 import {Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root', // This registers the service globally
 })
 export class RecipeService {
 
-   recipesChanged = new Subject<number>();
+   @Output() recipesChanged = new EventEmitter<Recipe[]>();
 
    recipeSelected = new EventEmitter<Recipe>();
 
+   constructor(private http: HttpClient) {
+   }
 
-   private recipes: Recipe[] = [
-     new Recipe(
-       'Grilled Chicken',
-       'Tender and flavorful grilled chicken marinated in lemon, herbs, and olive oil.',
-       '/assets/images/grilled_chicken.jpg',
-       [
-         new Ingredient('Boneless, skinless chicken breasts','High-protein source for a satisfying meal.', 4 ),
-         new Ingredient('Olive oil', 'Healthy fat for marinade and cooking.', 2 ),
-     new Ingredient('Fresh lemon zest', 'Adds bright citrus flavor to the chicken.', 1),
-    new Ingredient('Lemon juice', 'Marinade base for tanginess and tenderness.', 4)
-]
-),
-  new Recipe(
-  'Vegetable Stir-Fry',
-  'Quick and easy stir-fry with colorful veggies.',
-  '/assets/images/vegetable_stir_fry.jpg',
-  [
-    new Ingredient('Broccoli florets', 'Rich in vitamins A and C.',2 ),
-  new Ingredient('Carrots', 'Adds natural sweetness and beta-carotene.', 2),
-  new Ingredient('Bell peppers (mixed colors)', 'Vibrant color and crisp texture.',2 ),
-  new Ingredient('Garlic cloves', 'Enhances flavor with a punch of umami.',2 )
-]
-),
-  new Recipe(
-  'Spaghetti Aglio e Olio',
-  'Classic Italian spaghetti with garlic and olive oil.',
-  '/assets/images/spaghetti_aglio_e_olio.jpg',
-  [
-    new Ingredient('Spaghetti pasta', 'Long, thin strands for a classic Italian dish.', 12),
-  new Ingredient('Olive oil', 'Rich in healthy fats and essential nutrients.', 2),
-  new Ingredient('Garlic cloves (6)', '(Minced) Adds aroma and depth of flavor.',2 ),
-  new Ingredient('Red pepper flakes', 'Optional: Spicy kick and vibrant color.', 3 )
-]
-),
-  new Recipe(
-  'Vegetable Lasagna',
-  'Hearty and comforting layered lasagna with seasonal veggies.',
-  '/assets/images/vegetable_lasagna.jpg',
-  [
-    new Ingredient('Lasagna noodles', 'Wide, flat pasta for layers.', 12),
-  new Ingredient('Ricotta cheese', 'Creamy and mild, perfect for lasagna filling.', 16),
-  new Ingredient('Mozzarella cheese (shredded)', 'Melts smoothly and adds gooey texture.',2 )
-]
-),
-  new Recipe(
-  'Chicken Fajitas',
-  'Sizzling skillet of sautéed chicken with colorful bell peppers and onions.',
-  '/assets/images/chicken_fajitas.jpg',
-  [
-    new Ingredient('Boneless, skinless chicken breasts or thighs','Versatile and flavorful protein.', 2),
-  new Ingredient('Bell peppers (mixed colors)', 'Add sweetness and vibrant color.', 6),
-  new Ingredient('Onion', 'Sweetens the dish and adds depth of flavor.', 1)
-  ])
-
-    ]
+  private recipes:Recipe[] = []
 
    getRecipes(){
+     console.log(this.recipes)
      return this.recipes.slice();
    }
 
@@ -78,12 +29,47 @@ export class RecipeService {
    }
 
   addRecipe(newRecipe: Recipe) {
-    this.recipes.push(newRecipe);
-    this.recipesChanged.next(this.recipes.length - 1);
+    this.recipes = [...this.recipes, newRecipe];
+    //this.recipes.push(newRecipe);
+    this.recipesChanged.emit(this.recipes.slice());
   }
 
   updateRecipe(recipe: Recipe, index: number) {
     this.recipes[index] = recipe;
-    this.recipesChanged.next(index);
+    this.recipesChanged.emit(this.recipes.slice());
+  }
+
+  setRecipes(response: Recipe[]) {
+    this.recipes = response
+    this.recipesChanged.emit(this.recipes.slice())
+  }
+
+  saveToDb() {
+    this.http.put('https://angularecipe-default-rtdb.firebaseio.com/recipes.json', this.recipes)
+      .subscribe(
+        response => {
+            console.log(response)
+        });
+  }
+
+
+  fetchRecipes() {
+    this.http
+      .get<Recipe[]>('https://angularecipe-default-rtdb.firebaseio.com/recipes.json')
+      .pipe(
+      map(recipes =>{
+        return recipes.map(recipe => {
+          return {...recipe,ingredients: recipe.ingredients ? recipe.ingredients : []};
+        });
+      })
+    ).subscribe(
+      response => {
+        this.recipes = response
+        this.recipesChanged.emit(this.recipes.slice())
+      }
+    )
+
+
+    return this.recipes.slice()
   }
 }

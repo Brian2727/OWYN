@@ -23,12 +23,14 @@ export class RecipeListComponent {
   }
 
   ngOnInit(){
-    this.recipes = this.recipeService.getRecipes();
+
     this.recipeService.recipesChanged.subscribe(
-        (index:number) => {
-          this.recipes = this.recipeService.getRecipes();
+        (recipes:Recipe[]) => {
+          this.recipes = recipes;
         }
     )
+
+    this.recipes = this.recipeService.fetchRecipes()
   }
 
   getSelectedRecipe(){

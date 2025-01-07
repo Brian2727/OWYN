@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {DropdownDirective} from "../shared/dropdown.directive";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {DataStorageService} from "../shared/data-storage.service";
+import {HttpClientModule} from "@angular/common/http";
+import {RecipeService} from "../recipe-book/recipe.service";
 
 @Component({
   selector: 'app-header',
@@ -9,17 +11,22 @@ import {DataStorageService} from "../shared/data-storage.service";
   imports: [
     DropdownDirective,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
 
-  constructor(private dataStorageService: DataStorageService) {
+  constructor(private recipeService: RecipeService) {
   }
 
   onSaveData() {
-    this.dataStorageService.saveRecipes();
+    this.recipeService.saveToDb();
+  }
+
+  onFetchData() {
+    this.recipeService.fetchRecipes()
   }
 }

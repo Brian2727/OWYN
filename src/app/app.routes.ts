@@ -4,7 +4,6 @@ import {RecipeBookComponent} from "./recipe-book/recipe-book.component";
 import {NgModule} from "@angular/core";
 import {RecipeEditComponent} from "./recipe-book/recipe-edit/recipe-edit.component";
 import {RecipeDetailComponent} from "./recipe-book/recipe-detail/recipe-detail.component";
-import {HttpClientModule} from "@angular/common/http";
 
 export const routes: Routes = [
   {path: '',redirectTo: '/shoppingList' ,pathMatch: 'full' },
@@ -18,7 +17,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),HttpClientModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

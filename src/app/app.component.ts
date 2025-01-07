@@ -7,13 +7,13 @@ import {RecipeListComponent} from "./recipe-book/recipe-list/recipe-list.compone
 import {RecipeService} from "./recipe-book/recipe.service";
 import {ShoppingListService} from "./shopping-list/ShoppingList.Service";
 import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {DataStorageService} from "./shared/data-storage.service";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FormsModule,HttpClientModule],
+  imports: [RouterOutlet, HeaderComponent, FormsModule,HttpClientModule, RecipeBookComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers:[RecipeService,ShoppingListService]
@@ -21,6 +21,6 @@ import {DataStorageService} from "./shared/data-storage.service";
 export class AppComponent {
   title = 'OWYN';
 
-  constructor(recipeService: RecipeService) {
+  constructor() {
   }
 }
